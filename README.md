@@ -1,78 +1,85 @@
-# Alzheimer-Disease-Multiclass-Classification-Dementia-Progression-
+# Alzheimer’s Disease Classification using VGG16
 
-# Alzheimer's Disease Detection Using Deep Learning
+A deep learning–based system for classifying Alzheimer’s Disease (AD) stages using structural MRI scans.
+This project uses a fine-tuned VGG16 CNN, ResNet50 architecture to classify MRI images into four stages of Alzheimer’s Disease.
 
-## Description
-This project implements deep learning techniques for detecting Alzheimer's Disease (AD) from MRI brain scans. It explores two primary approaches:
-1. **Transfer Learning with VGG16:** A pre-trained VGG16 model is fine-tuned to classify different stages of Alzheimer's Disease.
-2. **Custom CNN Model:** A deep learning architecture specifically designed for AD classification.
+# Overview
 
-The models are evaluated on two datasets:
-- **ADNI Dataset:** Classifies subjects into Cognitively Normal (CN), Early Mild Cognitive Impairment (EMCI), Late Mild Cognitive Impairment (LMCI), and Alzheimer's Disease (AD).
-- **Alzheimer's Disease Multiclass Dataset:** Categorizes MRI scans into NonDemented, VeryMildDemented, MildDemented, and ModerateDemented.
+This project implements a transfer-learning pipeline for multi-class Alzheimer’s Disease classification using MRI images.
+The model classifies images into:
 
-## Features
-- Uses **CNNs and Transfer Learning (VGG16)** for classification.
-- **Data preprocessing techniques**: Segmentation, histogram equalization, CLAHE, and K-means clustering.
-- **Data augmentation** to mitigate class imbalance.
-- **Evaluation metrics**: Accuracy, Precision, Recall, and F1-score.
+#### Very Mild Demented
 
-## Results
-| Model | Dataset | Classification Task | Accuracy |
-|--------|---------|-------------------|----------|
-| VGG16 | ADNI | AD/EMCI/LMCI/NC | 98% |
-| VGG16 | Alzheimer's Multiclass | Multi-class | 98% |
-| Custom CNN | ADNI | AD/EMCI/LMCI/NC | 99% |
-| Custom CNN | Alzheimer's Multiclass | Multi-class | 98% |
+#### Mild Demented
 
-## Installation
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/A4xMimic/Alzheimer-Disease-Multiclass-Classification-Dementia-Progression-.git
-   cd Alzheimer-Disease-Multiclass-Classification-Dementia-Progression-
-   ```
-2. Install dependencies:
-   ```sh
-   pip install -r requirements.txt
-   ```
+#### Moderate Demented
 
-## Dataset Preparation
-Download the datasets:
-- **ADNI Dataset**: [ADNI Website](https://adni.loni.usc.edu/)
-- **Alzheimer's Disease Multiclass Dataset**: Available on Kaggle.
+The model uses preprocessing, augmentation, dropout, and early stopping to improve robustness and reduce overfitting.
 
-Place the dataset in the `data/` directory and structure it as follows:
-```
-data/
-  ├── ADNI/
-  ├── Alzheimer's Multiclass/
-```
+# Datasets Used
 
-## Model Training & Evaluation
-Run the training script:
-```sh
-python train.py --model vgg16 --dataset adni
-```
-To test a trained model:
-```sh
-python evaluate.py --model vgg16 --dataset adni
-```
+#### AMD Dataset – Retinal imaging dataset used for Age-related Macular Degeneration studies.
 
-## Project Structure
-```
-├── data/                     # Datasets
-├── models/                   # Trained models
-├── src/
-│   ├── preprocessing.py      # Data preprocessing
-│   ├── model_vgg16.py       # VGG16 model implementation
-│   ├── model_cnn.py         # Custom CNN model implementation
-│   ├── train.py             # Training script
-│   ├── evaluate.py          # Evaluation script
-├── requirements.txt          # Dependencies
-├── README.md                 # Project documentation
-```
+#### UK Biobank (UKB) – A large-scale biomedical dataset with MRI, genetics, and clinical records.
 
-## Acknowledgments
-- ADNI for providing the dataset.
-- The deep learning community for open-source tools like TensorFlow and PyTorch.
+#### These datasets together provide strong imaging variability for effective training.
 
+# Model Architecture
+
+The model is built on VGG16 (ImageNet pre-trained) with the following modifications:
+
+Removed fully connected top layers
+
+Added Global Average Pooling
+
+Added Dense layers with ReLU
+
+Added Dropout for regularization
+
+Final Softmax layer for 4-class classification
+
+This architecture provides a strong balance between accuracy and interpretability.
+
+# Training Setup
+
+#### Framework: TensorFlow / Keras
+
+#### Optimizer: Adam with LR scheduling
+
+#### Loss: Categorical Cross-Entropy
+
+#### Regularization Techniques: Dropout -> Data Augmentation -> Early Stopping
+
+#### Evaluation Metrics: Accuracy, Precision, Recall, F1-Score, Confusion Matrix
+
+# Results
+
+Strong performance in detecting Non-Demented and Very Mild Demented categories
+
+Some confusion between Mild and Moderate Demented (expected due to overlapping MRI features)
+
+Training/validation curves indicate reduced overfitting thanks to regularization
+
+Overall, the model delivers promising accuracy on MRI-based Alzheimer’s classification.
+
+# Future Enhancements
+
+Test advanced deep learning architectures (DenseNet, ViT)
+
+Add Grad-CAM heatmaps for model explainability
+
+Explore multi-modal learning by integrating MRI + clinical data
+
+Deploy as a web-based diagnostic tool for clinicians
+
+# References
+
+Suk et al., 2015 – Deep learning–based features for AD/MCI classification
+
+Korolev et al., 2017 – CNNs for 3D brain MRI classification
+
+Wang et al., 2018 – Transfer learning for Alzheimer’s diagnosis
+
+Marcus et al., 2007 – OASIS MRI dataset
+
+Jack et al., 2008 – ADNI MRI methods
